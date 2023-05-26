@@ -1,8 +1,7 @@
 <template>
     <div>
       <a-button type="primary" @click="showModal">Open Modal</a-button>
-      <a-modal v-model:visible="visible" title="Basic Modal" @ok="handleOk" :afterClose="close"     
-       > 
+      <a-modal v-model:visible="visible" title="Bssic Modal" wrapClassName="test"> 
         <p>Some contents...</p>
         <p>Some contents...</p>
         <input type="text"/>
@@ -15,7 +14,7 @@
   export default defineComponent({
     setup() {
       const visible = ref(false);
-  
+       const test =ref('top-200')
       const showModal = () => {
         visible.value = true;
       };
@@ -32,10 +31,17 @@
         handleOk,
         close,
         h,
-        closeds
+        closeds,
+        test
       };
     },
   });
   </script>
-  
+  <style>
+ .top-200{
+  top: 65px;
+  right: 384px;
+  border: 1px solid red;
+}
+</style>
   

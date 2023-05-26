@@ -1,12 +1,12 @@
 <script setup>
-import mymodal from './components/modal/index.vue'
+import mymodal from './components/modal/modal'
 import modal from './components/index.vue'
-import {ref} from 'vue'
+import {ref,h,render} from 'vue'
 const visible = ref(false);
 const showModal = () => {
   visible.value = true;
 };
-
+mymodal.confirm()
 const handleOk = (e) => {
   console.log(e);
   visible.value = false;
@@ -14,11 +14,15 @@ const handleOk = (e) => {
 const close = ()=>{
   console.log('关闭后的回调函数触发了')
 }
+
+const getContainer =()=>document.getElementsByClassName('fatherClassName')[0];
+const closeIcon ="<span>x<span>"
 </script>
 
 <template>
+  <div class="fatherClassName"></div>
   <modal/>
-  <!-- 个人感觉 antd modal中 bodyStyle 用起来并不好 比如他会用驼峰命名（文档也不标明）  我这里改动成全字符串的形式 属性保留css的写法 -->
+  <!-- bodyStyle  ok-button-props  cancel-button-props dialogStyle属性遵循 vue 动态 :style 的写法 -->
   <mymodal 
     v-model:visible="visible" 
     :afterClose="close" 
@@ -28,10 +32,21 @@ const close = ()=>{
     title="Modal"
     ok-text="确认1"
     cancel-text="取消1"
-    closable
     centered
-    destroyOnClose= true
-    >
+    :destroyOnClose= true
+    :dialogStyle="{'width': '600px','background-color': 'red'}"
+    dialogClass="dialog-name"
+    :footer="null"
+    :getContainer='getContainer'
+    :mask=true 
+    :maskClosable=true
+    :maskStyle="{}"
+    :keyboard=false
+    :width=520
+    wrapClassName="wrap"
+    zIndex="1000" 
+    :closeIcon="closeIcon"
+  >
     <!-- footer插槽 -->
     <!-- <template #footer>
       <button class="ant-btn ant-btn-close" type="button" ant-click-animating-without-extra-node="false">
