@@ -1,5 +1,5 @@
 <template>
-    <Teleport :to="'getContainer' in useAttrs() ? useAttrs().getContainer() : 'body'" :disabled='isMobile' id="confirmModal">
+    <Teleport :to="'getContainer' in useAttrs() ? useAttrs().getContainer() : 'body'" :disabled='isMobile'>
         <modal 
             v-if="cancelElement"          
             :visible="props.visible" 
@@ -18,7 +18,6 @@
             :mask-style="props.maskStyle"
             :key-board="props.keyboard"
             :width="props.width"
-            @visible="getVisible"
             :centered="'centered' in useAttrs()"
             :closable="'closable' in useAttrs()"
             :wrap-className="props.wrapClassName" 
@@ -63,6 +62,7 @@ const props = defineProps(
         'closeIcon'
     ]
 )
+
 console.log('modal',modal)
 const isMobile = ref(false);//是否禁用传送门
 const cancelElement = ref(true);// 是否隐藏 modal组件

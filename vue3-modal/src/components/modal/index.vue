@@ -63,6 +63,7 @@ const props = defineProps(
         'closeIcon'
     ]
 )
+const emit = defineEmits(['ok','update:visible']);
 console.log('modal',modal)
 const isMobile = ref(false);//是否禁用传送门
 const cancelElement = ref(true);// 是否隐藏 modal组件
@@ -73,8 +74,6 @@ watch(()=>props.visible,(e)=>{
     cancelElement.value = e;      
   }
 })
-const emit = defineEmits(['ok','update:visible']);
-
 const getVisible =(e)=>{  
     emit('update:visible', e)//通知已经关闭Modal
 }

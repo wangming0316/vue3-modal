@@ -170,6 +170,7 @@ const closeModal = (e)=>{
     if(!props.maskClosable && e.target.attributes[1].nodeValue.indexOf('ant-modal-wrap') !==-1){
         return false
     }     
+    console.log('modal组件 closeModal触发了')
     emit('visible', false)//通知已经关闭Modal
 }
 

@@ -42,7 +42,7 @@
 <script>
 </script>
 <script setup>
-import { ref,watch,onMounted, toRefs, reactive} from 'vue';
+import { ref,watch,onMounted} from 'vue';
 const props = defineProps({
     visible:{//是否打开modal
         type:Boolean,
@@ -127,7 +127,7 @@ const props = defineProps({
 console.log('confirmModalVisible',props.visible)
 const styleObj= ref({display:props.visible ? 'block':'none'});//控制display：none
 const emit = defineEmits(['ok','visible']);
-watch(()=>props.visible,(e)=>{  
+watch(()=>props.visible,(e)=>{
     if(e){
         styleObj.value= { display:'block' };
     }else{
@@ -165,8 +165,8 @@ const closeModal = (e)=>{
     if(!props.maskClosable && e.target.attributes[1].nodeValue.indexOf('ant-modal-wrap') !==-1){
         return false
     }
-   console.log('ASSDADASD', props.visible);
-    emit('visible', false);//关闭Modal
+    console.log('ASSDADASD',props.visible)  
+   
 }
 
 </script>
