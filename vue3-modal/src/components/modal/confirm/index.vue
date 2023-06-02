@@ -3,7 +3,7 @@
         <modal 
             v-if="cancelElement"          
             :visible="props.visible" 
-            :after-close="props.afterClos" 
+            :after-close="props.afterClose" 
             :body-style="props.bodyStyle"  
             :ok-button-props="props.okButtonProps"
             :cancel-button-props="props.cancelButtonProps"
@@ -26,7 +26,7 @@
         >
         <!-- 中间body部分-->
         <template #default>
-            <slot></slot>
+           {{ props.content}}
         </template>
         <!-- footer按钮部分-->
         <template #footer v-if="$slots.footer">
@@ -42,6 +42,7 @@ const props = defineProps(
     [
         'visible',
         'title',
+        'content',
         'okText',
         'cancelText',
         'afterClose',

@@ -3,7 +3,7 @@
         <modal 
             v-if="cancelElement"          
             :visible="props.visible" 
-            :after-close="props.afterClos" 
+            :after-close="props.afterClose" 
             :body-style="props.bodyStyle"  
             :ok-button-props="props.okButtonProps"
             :cancel-button-props="props.cancelButtonProps"

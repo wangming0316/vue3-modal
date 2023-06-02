@@ -1,19 +1,25 @@
 <script setup>
-import mymodal from './components/modal/confirm/confirmModal'
+import confirmModal from './components/modal/confirm/confirmModal'
+import mymodal from './components/modal/index.vue'
 import modal from './components/index.vue'
 import {ref,h,render} from 'vue'
 const visible = ref(false);
+const close = ()=>{
+  console.log('关闭后的回调函数触发了')
+}
 const showModal = () => {
   visible.value = true;
 };
-// mymodal.confirm({visible:true});
+confirmModal.confirm({
+  content:'啊大苏打是大哥999',
+  bodyStyle:{ color:'red',"background-color":'antiquewhite' },
+  okButtonProps:{'border-color': 'red'},
+  cancelButtonProps:{ width: '100px'},
+});
 const handleOk = (e) => {
   console.log(e);
   visible.value = false;
 };
-const close = ()=>{
-  console.log('关闭后的回调函数触发了')
-}
 
 const getContainer =()=>document.getElementsByClassName('fatherClassName')[0];
 const closeIcon ="<span>x<span>"
@@ -39,7 +45,7 @@ const closeIcon ="<span>x<span>"
     :footer="null"
     :getContainer='getContainer'
     :mask=true 
-    :maskClosable=true
+    :maskClosable=false
     :maskStyle="{}"
     :keyboard=false
     :width=520

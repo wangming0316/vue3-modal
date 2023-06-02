@@ -42,7 +42,7 @@
 <script>
 </script>
 <script setup>
-import { ref,watch,onMounted,defineExpose} from 'vue';
+import { ref,watch,onMounted} from 'vue';
 const props = defineProps({
     visible:{//是否打开modal
         type:Boolean,
@@ -101,7 +101,7 @@ const props = defineProps({
         default:true
     },
     maskStyle:{
-        type:String,
+        type:[String,Object],
         default:""
     },
     keyBoard:{//是否支持键盘 esc 关闭
@@ -109,7 +109,7 @@ const props = defineProps({
         default:true
     },
     width:{//modal 宽度
-        type:String,
+        type:[String,Number],
         default:'520'
     },
     wrapClassName:{ //对话框外层容器的类名  
@@ -129,11 +129,12 @@ const emit = defineEmits(['ok','visible']);
 watch(()=>props.visible,(e)=>{
     if(e){
         styleObj.value= { display:'block' };
-    }else{
+    }
+    else{
         styleObj.value= { display:'none' };
         props.afterClose();//完全关闭后触发 对应=> afterClose API
     }
-});
+}); 
 
 const bodyStyles = ref({})//body样式
 const okButtonStyle = ref({})//确认按钮的样式
@@ -161,16 +162,12 @@ onMounted(()=>{
         }       
     });  
 })
-const confirm =()=>{
-    console.log('confirm暴漏出来了！！！！')
-}
-defineExpose(confirm)
 //关闭Modal时触发
 const closeModal = (e)=>{ 
-    if(!props.maskClosable && e.target.attributes[1].nodeValue.indexOf('ant-modal-wrap') !==-1){
-        return false
-    }     
-    console.log('modal组件 closeModal触发了')
+    // if(!props.maskClosable && e.target.attributes[1].nodeValue.indexOf('ant-modal-wrap') !==-1){
+    //     return false
+    // }     
+    props.afterClose();//完全关闭后触发 对应=> afterClose API
     emit('visible', false)//通知已经关闭Modal
 }
 

@@ -90,7 +90,7 @@ const props = defineProps({
     },
     footer:{//底部内容，当不需要默认底部按钮时，可以设为 :footer="null"  	确定取消按钮
         type:Object,   // null
-        default:null
+        default:{}
     },
     mask:{//是否显示遮罩层 默认true 打开
         type:Boolean,
@@ -132,25 +132,27 @@ watch(()=>props.visible,(e)=>{
         styleObj.value= { display:'block' };
     }else{
         styleObj.value= { display:'none' };
-        props.afterClose();//完全关闭后触发 对应=> afterClose API
     }
 });
 const bodyStyles = ref({})//body样式
 const okButtonStyle = ref({})//确认按钮的样式
 const cancelButtonStyle = ref({})//删除按钮的样式
-watch(()=>[props.bodyStyle,props.okButtonProps,props.cancelButtonProps],([bodyStyle,okButtonProps,cancelButtonProps])=>{
-    if(bodyStyle){
-        bodyStyles.value = bodyStyle;
-    };
-    if(okButtonProps){      
-        okButtonStyle.value = okButtonProps;
-        console.log('okButtonStyle',okButtonStyle.value)
-    }
-    if(cancelButtonProps){    
-        cancelButtonStyle.value = cancelButtonProps;
-        console.log('cancelButtonStyle',cancelButtonStyle.value)
-    }
-},{immediate:true})
+okButtonStyle.value = props.okButtonProps || {};
+cancelButtonStyle.value = props.cancelButtonProps || {};
+bodyStyles.value = props.bodyStyle || {};
+// watch(()=>[props.bodyStyle,props.okButtonProps,props.cancelButtonProps],([bodyStyle,okButtonProps,cancelButtonProps])=>{
+//     if(bodyStyle){
+//         bodyStyles.value = bodyStyle;
+//     };
+//     if(okButtonProps){      
+//         okButtonStyle.value = okButtonProps;
+//         console.log('okButtonStyle',okButtonStyle.value)
+//     }
+//     if(cancelButtonProps){    
+//         cancelButtonStyle.value = cancelButtonProps;
+//         console.log('cancelButtonStyle',cancelButtonStyle.value)
+//     }
+// },{immediate:true})
 
 onMounted(()=>{ 
     //esc 关闭modal 默认开启
@@ -165,10 +167,10 @@ const closeModal = (e)=>{
     if(!props.maskClosable && e.target.attributes[1].nodeValue.indexOf('ant-modal-wrap') !==-1){
         return false
     }
-    console.log('ASSDADASD',props.visible)  
-   
+    styleObj.value = {display:'none'}
+    props.afterClose();//完全关闭后触发 对应=> afterClose API
+    console.log('ASSDADASD',props.visible)     
 }
-
 </script>
 <style scoped>
 .ant-modal-mask{
