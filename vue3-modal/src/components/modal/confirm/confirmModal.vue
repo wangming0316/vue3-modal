@@ -42,7 +42,7 @@
 <script>
 </script>
 <script setup>
-import { ref,watch,onMounted,defineExpose} from 'vue';
+import { ref,watch,onMounted, toRefs, reactive} from 'vue';
 const props = defineProps({
     visible:{//是否打开modal
         type:Boolean,
@@ -64,7 +64,7 @@ const props = defineProps({
         type:Function,
         default:()=>{}
     },
-    bodyStyle:{//自定义  class = "ant-modal-body"  标签的样式  例如： { 'color':'red','background-color':'antiquewhite' }
+    bodyStyle:{//自定义  class = "ant-modal-body" 标签的样式  例如： { 'color':'red','background-color':'antiquewhite' }
         type:Object,
     },
     okButtonProps:{//确认按钮样式  暂时没封装button这里只是更改button的样式
@@ -88,9 +88,9 @@ const props = defineProps({
         type:String,
         default:""
     },
-    footer:{//底部内容，当不需要默认底部按钮时，可以设为 :footer="null" 确定取消按钮
+    footer:{//底部内容，当不需要默认底部按钮时，可以设为 :footer="null"  	确定取消按钮
         type:Object,   // null
-        default:'' 
+        default:null
     },
     mask:{//是否显示遮罩层 默认true 打开
         type:Boolean,
@@ -101,7 +101,7 @@ const props = defineProps({
         default:true
     },
     maskStyle:{
-        type:String,
+        type:[String,Object],
         default:""
     },
     keyBoard:{//是否支持键盘 esc 关闭
@@ -109,7 +109,7 @@ const props = defineProps({
         default:true
     },
     width:{//modal 宽度
-        type:String,
+        type:[String,Number],
         default:'520'
     },
     wrapClassName:{ //对话框外层容器的类名  
@@ -117,16 +117,17 @@ const props = defineProps({
         default:''
     },
     zIndex:{//设置 Modal 的 z-index
-        type:[String,Boolean],
+        type:[String,Number],
         default:1000
     },
     closeIcon:{//自定义关闭图标  HTMLElement  
-        type:String,      
+        type:String,     
     }
 });
+console.log('confirmModalVisible',props.visible)
 const styleObj= ref({display:props.visible ? 'block':'none'});//控制display：none
 const emit = defineEmits(['ok','visible']);
-watch(()=>props.visible,(e)=>{
+watch(()=>props.visible,(e)=>{  
     if(e){
         styleObj.value= { display:'block' };
     }else{
@@ -134,7 +135,6 @@ watch(()=>props.visible,(e)=>{
         props.afterClose();//完全关闭后触发 对应=> afterClose API
     }
 });
-
 const bodyStyles = ref({})//body样式
 const okButtonStyle = ref({})//确认按钮的样式
 const cancelButtonStyle = ref({})//删除按钮的样式
@@ -152,25 +152,21 @@ watch(()=>[props.bodyStyle,props.okButtonProps,props.cancelButtonProps],([bodySt
     }
 },{immediate:true})
 
-onMounted(()=>{   
+onMounted(()=>{ 
     //esc 关闭modal 默认开启
     window.addEventListener('keydown', (e) => {
         if(props.keyBoard && e.key === 'Escape'){
-            console.log(e)
             closeModal()
         }       
     });  
 })
-const confirm =()=>{
-    console.log('confirm暴漏出来了！！！！')
-}
-defineExpose(confirm)
 //关闭Modal时触发
 const closeModal = (e)=>{ 
     if(!props.maskClosable && e.target.attributes[1].nodeValue.indexOf('ant-modal-wrap') !==-1){
         return false
-    }     
-    emit('visible', false)//通知已经关闭Modal
+    }
+   console.log('ASSDADASD', props.visible);
+    emit('visible', false);//关闭Modal
 }
 
 </script>

@@ -1,12 +1,12 @@
 <script setup>
-import mymodal from './components/modal/modal'
+import mymodal from './components/modal/confirm/confirmModal'
 import modal from './components/index.vue'
 import {ref,h,render} from 'vue'
 const visible = ref(false);
 const showModal = () => {
   visible.value = true;
 };
-mymodal.confirm()
+// mymodal.confirm({visible:true});
 const handleOk = (e) => {
   console.log(e);
   visible.value = false;
