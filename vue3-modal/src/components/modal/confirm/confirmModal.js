@@ -4,4 +4,3 @@ confirmModal.confirm=function confirmFn(props){
     confirm(props)
 }
 export default confirmModal
-
