@@ -12,9 +12,11 @@ const showModal = () => {
 };
 confirmModal.confirm({
   content:'啊大苏打是大哥999',
-  bodyStyle:{ color:'red',"background-color":'antiquewhite' },
+  afterClose:close,
+  bodyStyle:{ color:'green',"background-color":'antiquewhite' },
   okButtonProps:{'border-color': 'red'},
   cancelButtonProps:{ width: '100px'},
+  title:'Modal Title Namesa'
 });
 const handleOk = (e) => {
   console.log(e);

@@ -1,7 +1,7 @@
 <template>
     <div>
       <a-button type="primary" @click="showModal">Open Modal</a-button>
-      <a-modal v-model:visible="visible" title="Bssic Modal" wrapClassName="test"> 
+      <a-modal v-model:visible="visible" title="Bssic Modalssss" wrapClassName="test"> 
         <p>Some contents...</p>
         <p>Some contents...</p>
         <input type="text"/>
@@ -14,7 +14,7 @@
   export default defineComponent({
     setup() {
       const visible = ref(false);
-       const test =ref('top-200')
+      const test =ref('top-200')
       const showModal = () => {
         visible.value = true;
       };

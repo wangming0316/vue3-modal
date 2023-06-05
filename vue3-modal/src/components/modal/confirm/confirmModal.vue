@@ -16,7 +16,7 @@
                     </button>
                     <div class="ant-modal-header">
                         <div class="ant-modal-title" id="vcDialogTitle0">
-                            {{ props.title }}
+                            {{ modalTitle }}
                         </div>
                     </div>
                     <div class="ant-modal-body" :style="bodyStyles">
@@ -42,7 +42,7 @@
 <script>
 </script>
 <script setup>
-import { ref,watch,onMounted} from 'vue';
+import { ref,watch,onMounted,watchEffect} from 'vue';
 const props = defineProps({
     visible:{//是否打开modal
         type:Boolean,
@@ -69,9 +69,11 @@ const props = defineProps({
     },
     okButtonProps:{//确认按钮样式  暂时没封装button这里只是更改button的样式
         type:Object,
+        default:{}
     },
     cancelButtonProps:{//取消按钮样式  暂时没封装button这里只是更改button的样式
         type:Object,
+        default:{}
     },
     centered:{ // modal是否居中显示
         type:[String,Boolean],
@@ -127,19 +129,20 @@ const props = defineProps({
 console.log('confirmModalVisible',props.visible)
 const styleObj= ref({display:props.visible ? 'block':'none'});//控制display：none
 const emit = defineEmits(['ok','visible']);
-watch(()=>props.visible,(e)=>{
-    if(e){
-        styleObj.value= { display:'block' };
-    }else{
-        styleObj.value= { display:'none' };
-    }
-});
+// watch(()=>props.visible,(e)=>{
+//     if(e){
+//         styleObj.value= { display:'block' };
+//     }else{
+//         styleObj.value= { display:'none' };
+//     }
+// });
+const modalTitle = ref('');//标题
 const bodyStyles = ref({})//body样式
 const okButtonStyle = ref({})//确认按钮的样式
 const cancelButtonStyle = ref({})//删除按钮的样式
-okButtonStyle.value = props.okButtonProps || {};
-cancelButtonStyle.value = props.cancelButtonProps || {};
-bodyStyles.value = props.bodyStyle || {};
+// okButtonStyle.value = props.okButtonProps || {};
+// cancelButtonStyle.value = props.cancelButtonProps || {};
+// bodyStyles.value = props.bodyStyle || {};
 // watch(()=>[props.bodyStyle,props.okButtonProps,props.cancelButtonProps],([bodyStyle,okButtonProps,cancelButtonProps])=>{
 //     if(bodyStyle){
 //         bodyStyles.value = bodyStyle;
@@ -153,6 +156,25 @@ bodyStyles.value = props.bodyStyle || {};
 //         console.log('cancelButtonStyle',cancelButtonStyle.value)
 //     }
 // },{immediate:true})
+watchEffect(()=>{
+    // if(props.bodyStyle){
+    //     bodyStyles.value = props.bodyStyle;
+    // };
+    // if(props.okButtonProps){      
+    //     okButtonStyle.value = props.okButtonProps;
+    //     console.log('okButtonStyle',okButtonStyle.value)
+    // }
+    // if(props.cancelButtonProps){    
+    //     cancelButtonStyle.value = props.cancelButtonProps;
+    //     console.log('cancelButtonStyle',cancelButtonStyle.value)
+    // }
+    if(props.visible){
+        styleObj.value= { display:'block' };
+    }else{
+        styleObj.value= { display:'none' };
+    }
+    modalTitle.value = props.title;
+})
 
 onMounted(()=>{ 
     //esc 关闭modal 默认开启
