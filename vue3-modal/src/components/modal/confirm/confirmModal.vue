@@ -42,7 +42,7 @@
 <script>
 </script>
 <script setup>
-import { ref,watch,onMounted,watchEffect} from 'vue';
+import { ref,watch,onMounted,watchEffect,onBeforeUpdate} from 'vue';
 const props = defineProps({
     visible:{//是否打开modal
         type:Boolean,
@@ -140,6 +140,7 @@ const modalTitle = ref('');//标题
 const bodyStyles = ref({})//body样式
 const okButtonStyle = ref({})//确认按钮的样式
 const cancelButtonStyle = ref({})//删除按钮的样式
+
 // okButtonStyle.value = props.okButtonProps || {};
 // cancelButtonStyle.value = props.cancelButtonProps || {};
 // bodyStyles.value = props.bodyStyle || {};
@@ -156,14 +157,15 @@ const cancelButtonStyle = ref({})//删除按钮的样式
 //         console.log('cancelButtonStyle',cancelButtonStyle.value)
 //     }
 // },{immediate:true})
+
 watchEffect(()=>{
-    // if(props.bodyStyle){
-    //     bodyStyles.value = props.bodyStyle;
-    // };
-    // if(props.okButtonProps){      
-    //     okButtonStyle.value = props.okButtonProps;
-    //     console.log('okButtonStyle',okButtonStyle.value)
-    // }
+    if(props.bodyStyle){
+        bodyStyles.value = props.bodyStyle;
+    };
+    if(props.okButtonProps){      
+        okButtonStyle.value = props.okButtonProps;
+        console.log('okButtonStyle',okButtonStyle.value)
+    }
     // if(props.cancelButtonProps){    
     //     cancelButtonStyle.value = props.cancelButtonProps;
     //     console.log('cancelButtonStyle',cancelButtonStyle.value)
@@ -175,7 +177,12 @@ watchEffect(()=>{
     }
     modalTitle.value = props.title;
 })
-
+onBeforeUpdate(()=>{
+    if(props.cancelButtonProps){    
+        cancelButtonStyle.value = props.cancelButtonProps;
+        console.log('cancelButtonStyle',cancelButtonStyle.value)
+    }
+})
 onMounted(()=>{ 
     //esc 关闭modal 默认开启
     window.addEventListener('keydown', (e) => {

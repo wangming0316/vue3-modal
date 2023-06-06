@@ -14,8 +14,8 @@ confirmModal.confirm({
   content:'啊大苏打是大哥999',
   afterClose:close,
   bodyStyle:{ color:'green',"background-color":'antiquewhite' },
-  okButtonProps:{'border-color': 'red'},
-  cancelButtonProps:{ width: '100px'},
+  okButtonProps:{'border-color': 'red',width: '100px'},
+  cancelButtonProps:{ width: '200px'},
   title:'Modal Title Namesa'
 });
 const handleOk = (e) => {
