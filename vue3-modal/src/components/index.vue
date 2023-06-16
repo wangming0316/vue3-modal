@@ -1,76 +1,31 @@
 <template>
   <div>
-    <a-button @click="showConfirm">Confirm</a-button>
-    <a-button type="dashed" @click="showDeleteConfirm">Delete</a-button>
-    <a-button type="dashed" @click="showPropsConfirm">With extra props</a-button>
+    <a-button type="primary" @click="showModal">Open Modal</a-button>
+    <a-modal v-model:visible="visible" title="Basic Modal" @ok="handleOk">
+      <p>Some contents...</p>
+      <p>Some contents...</p>
+      <p>Some contents...</p>
+    </a-modal>
   </div>
 </template>
 <script lang="ts">
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-import { createVNode, defineComponent } from 'vue';
-import { Modal } from 'ant-design-vue';
+import { defineComponent, ref } from 'vue';
 export default defineComponent({
   setup() {
-    console.log('rrrrrrrrrrrrrrrrrr',Modal)
-    const showConfirm = () => {
-      const modal =  Modal.confirm({
-          title: () => 'Do you Want to delete these items?',
-          icon: () => createVNode(ExclamationCircleOutlined),
-          content: () => createVNode('div', { style: 'color:red;' }, 'Some descriptions'),
-          onOk() {
-            console.log('OK');
-          },
-          onCancel() {
-            console.log('Cancel');
-          },
-          class: 'test',
-        });
-      setTimeout(() => {
-        modal.update({
-          content: `安东撒娇都爱睡觉的`,
-        });
-      }, 5000);
-      console.log('啊打算大苏打',modal)
+    const visible = ref<boolean>(false);
+
+    const showModal = () => {
+      visible.value = true;
     };
-    const showDeleteConfirm = () => {
-      Modal.confirm({
-        title: () => 'Are you sure delete this task?',
-        icon: () => createVNode(ExclamationCircleOutlined),
-        content: () => 'Some descriptions',
-        okText: () => 'Yes',
-        okType: 'danger',
-        cancelText: () => 'No',
-        onOk() {
-          console.log('OK');
-        },
-        onCancel() {
-          console.log('Cancel');
-        },
-      });
-    };
-    const showPropsConfirm = () => {
-      Modal.confirm({
-        title: () => 'Are you sure delete this task?',
-        icon: () => createVNode(ExclamationCircleOutlined),
-        content: () => 'Some descriptions',
-        okText: () => 'Yes',
-        okType: 'danger',
-        okButtonProps: {
-          disabled: true,
-        },
-        cancelText: () => 'No',
-        onOk() {
-          console.log('OK');
-        },
-        onCancel() {
-          console.log('Cancel');
-        },
-      });
+
+    const handleOk = (e: MouseEvent) => {
+      console.log(e);
+      visible.value = false;
     };
     return {
-      showConfirm,
-      showDeleteConfirm,
-      showPropsConfirm,
+      visible,
+      showModal,
+      handleOk,
     };
   },
 });

@@ -2,7 +2,7 @@
 import confirmModal from './components/modal/confirm/confirmModal'
 import mymodal from './components/modal/index.vue'
 import modal from './components/index.vue'
-import {ref,h,render} from 'vue'
+import {ref,h,render,createVNode} from 'vue'
 const visible = ref(false);
 const close = ()=>{
   console.log('关闭后的回调函数触发了')
@@ -10,19 +10,47 @@ const close = ()=>{
 const showModal = () => {
   visible.value = true;
 };
-confirmModal.confirm({
-  content:'啊大苏打是大哥999',
-  afterClose:close,
-  bodyStyle:{ color:'green',"background-color":'antiquewhite' },
-  okButtonProps:{'border-color': 'red',width: '100px'},
-  cancelButtonProps:{ width: '200px'},
-  title:'Modal Title Namesa'
-});
+
+// confirmModal.confirm({
+//   content:'啊大苏打是大哥999',
+//   afterClose:close,
+//   bodyStyle:{ color:'green',"background-color":'red' },
+//   okButtonProps:{'border-color': 'red',width: '60px'},
+//   cancelButtonProps:{ width: '60px'},
+//   title:'Modal Titlssse Namesa',
+//   onOk() {
+//     return new Promise((resolve, reject) => {
+//       setTimeout(Math.random() > 0.5 ? resolve : reject, 2000);
+//     }).catch(() => console.log('Oops errors!'));
+//   },
+// });
+// confirmModal.warning({
+//   title:'Modal组件测试rrr',
+//   content:h('div', {}, [ h('p', 'some messages...some messages...'),h('p', 'some messages...some messages...'),]),
+//   centered:true,      
+//   closable:true,
+//   class:'wangming',
+//   okText:'知道了',
+//   onCancel:()=>{
+//     console.log('关了')
+//   }
+// }).update({
+//   title:'Modal组件测试ssddssssss',
+//   closable:true,
+//   width:"600",
+//   onCancel:()=>{
+//     console.log('关了')
+//   }
+// })
+
 const handleOk = (e) => {
   console.log(e);
   visible.value = false;
 };
 
+const okHandel =()=>{
+ alert('取消回调了')
+}
 const getContainer =()=>document.getElementsByClassName('fatherClassName')[0];
 const closeIcon ="<span>x<span>"
 </script>
@@ -44,7 +72,7 @@ const closeIcon ="<span>x<span>"
     :destroyOnClose= true
     :dialogStyle="{'width': '600px','background-color': 'red'}"
     dialogClass="dialog-name"
-    :footer="null"
+   
     :getContainer='getContainer'
     :mask=true 
     :maskClosable=false
@@ -54,7 +82,9 @@ const closeIcon ="<span>x<span>"
     wrapClassName="wrap"
     zIndex="1000" 
     :closeIcon="closeIcon"
+    @cancel="okHandel"
   >
+  <!-- 使用footer插槽 无cancel ok 事件回调 -->
     <!-- footer插槽 -->
     <!-- <template #footer>
       <button class="ant-btn ant-btn-close" type="button" ant-click-animating-without-extra-node="false">

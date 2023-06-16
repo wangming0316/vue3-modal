@@ -23,7 +23,8 @@
             :closable="'closable' in useAttrs()"
             :wrap-className="props.wrapClassName" 
             :z-index="props.zIndex"
-            :close-icon="closeIcon"     
+            :close-icon="closeIcon"
+            @ok="okHandel"     
         >
         <!-- 中间body部分-->
         <template #default>
@@ -63,7 +64,7 @@ const props = defineProps(
         'closeIcon'
     ]
 )
-const emit = defineEmits(['ok','update:visible']);
+const emit = defineEmits(['ok','update:visible','cancel']);
 console.log('modal',modal)
 const isMobile = ref(false);//是否禁用传送门
 const cancelElement = ref(true);// 是否隐藏 modal组件
@@ -74,6 +75,9 @@ watch(()=>props.visible,(e)=>{
     cancelElement.value = e;      
   }
 })
+const okHandel =()=>{
+    emit('ok')
+}
 const getVisible =(e)=>{  
     emit('update:visible', e)//通知已经关闭Modal
 }

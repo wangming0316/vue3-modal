@@ -3,7 +3,7 @@
         <modal 
             v-if="cancelElement"          
             :visible="props.visible" 
-            :after-close="props.afterClose" 
+            :on-cancel="props.onCancel" 
             :body-style="props.bodyStyle"  
             :ok-button-props="props.okButtonProps"
             :cancel-button-props="props.cancelButtonProps"
@@ -11,22 +11,25 @@
             :ok-text="props.okText"
             :cancel-text="props.cancelText"
             :dialog-style="props.dialogStyle"
-            :dialog-class="props.dialogClass"
+            :class="props.class"
             :footer="props.footer"
             :mask="props.mask"
             :mask-closable="props.maskClosable"
             :mask-style="props.maskStyle"
             :key-board="props.keyboard"
             :width="props.width"
-            :centered="'centered' in useAttrs()"
-            :closable="'closable' in useAttrs()"
+            :centered="props.centered"
+            :closable="props.closable"
             :wrap-className="props.wrapClassName" 
             :z-index="props.zIndex"
-            :close-icon="closeIcon"     
+            :close-icon="props.closeIcon"
+            :on-ok="props.onOk" 
+            :message = "props.message"  
+            :confirm-body-title = "props.confirmBodyTitle"
         >
         <!-- 中间body部分-->
         <template #default>
-           {{ props.content}}
+          <renderContent/>
         </template>
         <!-- footer按钮部分-->
         <template #footer v-if="$slots.footer">
@@ -36,7 +39,7 @@
     </Teleport>
 </template>
 <script setup>
-import { ref,watch,useAttrs, } from 'vue' 
+import { ref,watch,useAttrs,render } from 'vue' 
 import modal from './confirmModal.vue'
 const props = defineProps(
     [
@@ -45,14 +48,14 @@ const props = defineProps(
         'content',
         'okText',
         'cancelText',
-        'afterClose',
+        'onCancel',
         'bodyStyle',
         'okButtonProps',
         'cancelButtonProps',
         'destroyOnClose',//关闭时销毁 Modal 里的子元素
         'dialogStyle',
         'footer',
-        'dialogClass',
+        'class',
         'mask',
         'maskClosable',
         'keyboard',
@@ -60,13 +63,21 @@ const props = defineProps(
         'width',
         'wrapClassName',
         'zIndex',
-        'closeIcon'
+        'closeIcon',
+        'onOk',
+        'message',
+        'confirmBodyTitle',
+        'closable',
+        'centered'
     ]
 )
-
-console.log('modal',modal)
+const renderContent = {
+    render(){
+        return props.content
+    }
+}
 const isMobile = ref(false);//是否禁用传送门
-const cancelElement = ref(true);// 是否隐藏 modal组件
+const cancelElement = ref(true);// 是否销毁 Modal 里的子元素
 watch(()=>props.visible,(e)=>{   
   if(props.destroyOnClose && e===false){
     cancelElement.value = e;

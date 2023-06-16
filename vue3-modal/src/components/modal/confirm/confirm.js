@@ -1,7 +1,19 @@
-import { createApp} from 'vue';
-import ConfirmModal from "./index.vue";
+import { createVNode, render as VueRender } from 'vue';
+import ConfirmModal from "./modalBridge.vue";
+
+function render(props){
+   const vm = createVNode(ConfirmModal,{visible:true,...props});
+   VueRender(vm,document.createDocumentFragment());
+   return vm
+}
+
 export default function confirm (props){ 
-   const modal = createApp(ConfirmModal, {visible:true,...props});
-   console.log('modal==========',modal)
-   modal.mount('#app'); 
+   const modal = render(props);
+   return {
+      update(nextProps){       
+         Reflect.set(nextProps,'confirmBodyTitle',nextProps?.title);       
+         Object.assign(modal.component.props,nextProps);
+         modal.component.update();
+      }
+   }
 }
